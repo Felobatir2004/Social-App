@@ -7,6 +7,9 @@ import connectDB from "./DB/connection.js"
 import { globalErrorHandler, notFoundHandler } from "./utils/error handling/asyncHandler.js"
 import cors from "cors";
 import morgan from "morgan"
+import {rateLimit} from "express-rate-limit"
+
+const limiter = rateLimit()
 const bootstrap = async (app, express)=>{
 
     await connectDB()
@@ -29,6 +32,8 @@ const bootstrap = async (app, express)=>{
     })
    */
     app.use(express.json());
+
+    app.use(limiter);
     app.use("/uploads", express.static("uploads"));
     app.use(cors())
 

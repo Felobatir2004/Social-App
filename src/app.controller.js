@@ -9,7 +9,10 @@ import cors from "cors";
 import morgan from "morgan"
 import {rateLimit} from "express-rate-limit"
 
-const limiter = rateLimit()
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    limit:2,
+})
 const bootstrap = async (app, express)=>{
 
     await connectDB()

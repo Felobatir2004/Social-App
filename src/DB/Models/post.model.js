@@ -40,6 +40,22 @@ const postSchema = new Schema({
 },{timestamps:true , toJSON:{virtuals:true} , toObject:{virtuals:true}}
 );
 
+postSchema.query.paginate = async function(page){
+    page = page ? page : 1;
+    const limit =4 ;
+    const skip = (page-1) * limit;
+    
+    const data = await this.skip(skip).limit(limit);
+    const items = await this.model.countDocuments();
+
+    return {
+        data,
+        totalItems:items,
+        currentPage:Number(page),
+        totalPages: Math.ceil(items/limit),
+        itemsPerPage:data.length,
+    }
+}
 postSchema.virtual("comments", {
     ref:"Comment",
     foreignField:"postId",

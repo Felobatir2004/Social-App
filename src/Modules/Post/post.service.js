@@ -172,10 +172,11 @@ export const activePosts = async (req, res) => {
     }
 */
 //////////////////////////////////////////////////////////////////////////////
-
+    
+/*
     const curser = PostModel.find({isDeleted:false}).cursor()
     let results = []
-    for (let post = await curser.next(); post != null; post = await curser.next()) {
+   for (let post = await curser.next(); post != null; post = await curser.next()) {
         const comment = await dbService.find({
             model:CommentModel,
             filter:{postId:post._id , isDeleted:false},
@@ -184,6 +185,12 @@ export const activePosts = async (req, res) => {
         results.push({post, comment}) 
     }
     return res.status(200).json({success:true , data:{results}})
+*/
+
+let {page} = req.query;
+
+const results = await PostModel.find({isDeleted:false}).paginate(page)
+return res.status(200).json({success:true , data: {results}})
 
 }
 

@@ -12,7 +12,16 @@ import {rateLimit} from "express-rate-limit"
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
     limit:2,
-    message:"Too many requests from this IP, please try again after 5 minutes"
+    message:"Too many requests from this IP, please try again after 5 minutes",
+    statusCode:429,
+
+    handler:  (req, res, next, options) => {
+        return next(new Error(options.message, { cause: options.statusCode }))
+    },
+    //standardHeaders: true,
+
+    //skipSuccessfulRequests: true,
+    //skipFailedRequests: true
 })
 const bootstrap = async (app, express)=>{
 

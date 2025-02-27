@@ -21,7 +21,13 @@ const limiter = rateLimit({
     //standardHeaders: true,
 
     //skipSuccessfulRequests: true,
-    //skipFailedRequests: true
+    //skipFailedRequests: true,
+
+    //keyGenerator: (req,res,next) =>{}
+
+   // skip: (req,res,next) =>{
+   //     return !["::1","192.165.0.50"].includes("::1")
+   // }
 })
 const bootstrap = async (app, express)=>{
 

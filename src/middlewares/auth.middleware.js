@@ -40,8 +40,8 @@ export const decodedToken = async ({authorization = "",tokenType = tokenTypes.ac
         const user = await dbService.findOne({model:UserModel , filter: {_id:decoded.id,isDeleted:false}})
         if(!user) return next(new Error("User Not Found",{cause: 404}))
         
-            if(user.changeCredentials?.getTime >=decoded.iat * 1000)
-                return next(new Error("In-valid token",{cause: 400}))
+        if(user.changeCredentials?.getTime >=decoded.iat * 1000)
+            return next(new Error("In-valid token",{cause: 400}))
         return user;
 }
 

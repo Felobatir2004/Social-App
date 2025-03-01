@@ -40,6 +40,8 @@
     "get-proto": "^1.0.1",
     "google-auth-library": "^9.15.1",
     "gopd": "^1.2.0",
+    "graphql": "^16.10.0",
+    "graphql-http": "^1.22.4",
     "has-symbols": "^1.1.0",
     "hasown": "^2.0.2",
     "http-errors": "^2.0.0",

@@ -1,5 +1,6 @@
 import joi from "joi"
 import { generalField } from "../../middlewares/validation.middleware.js"
+import { auth } from "google-auth-library";
 
 export const createPostSchema = joi
 .object({
@@ -34,4 +35,12 @@ export const getSinglePostSchema = joi
 export const likeAndUnlikePostSchema = joi
 .object({
     postId: generalField.id.required(),
+})
+
+
+
+export const likePostGraph = joi
+.object({
+    postId: generalField.id.required(),
+    authorization: joi.string().required()
 })

@@ -8,7 +8,9 @@ import { globalErrorHandler, notFoundHandler } from "./utils/error handling/asyn
 import cors from "cors";
 import morgan from "morgan"
 import {rateLimit} from "express-rate-limit"
-
+import { createHandler } from "graphql-http/lib/use/express"
+import { schema } from "./Modules/app.graph.js"
+/*
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
     limit:2,
@@ -18,23 +20,15 @@ const limiter = rateLimit({
     handler:  (req, res, next, options) => {
         return next(new Error(options.message, { cause: options.statusCode }))
     },
-    //standardHeaders: true,
 
-    //skipSuccessfulRequests: true,
-    //skipFailedRequests: true,
-
-    //keyGenerator: (req,res,next) =>{}
-
-   // skip: (req,res,next) =>{
-   //     return !["::1","192.165.0.50"].includes("::1")
-   // }
 })
+*/
 const bootstrap = async (app, express)=>{
 
     await connectDB()
 
 
-    app.use(morgan("combined"));
+    app.use(morgan("dev"));
   /*  
     const whitelist = ["http://localhost:3000","http://localhost:5200"];
 
@@ -50,13 +44,17 @@ const bootstrap = async (app, express)=>{
         return next()
     })
    */
+
+
     app.use(express.json());
 
-    app.use(limiter);
+   // app.use(limiter);
     app.use("/uploads", express.static("uploads"));
     app.use(cors())
 
     app.get("/",(req,res)=> res.send("Hello world"))
+
+    app.use("/graphql",createHandler({schema: schema}))
 
     app.use("/auth",authRouter)
     app.use("/user",userRouter)
